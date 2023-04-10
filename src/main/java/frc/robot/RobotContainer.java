@@ -6,14 +6,11 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.Constants.IntakeConstants;
-import frc.robot.Constants.PivotConstants;
+import frc.robot.commands.AutoCommands;
+import frc.robot.commands.CommandFactory;
 import frc.robot.controls.Deadbander;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
@@ -24,9 +21,9 @@ public class RobotContainer {
   private final Drivetrain mDrivetrain = new Drivetrain();
   private final Intake mIntake = new Intake();
   private final Pivot mPivot = new Pivot();
+  private final CommandFactory mCommandFactory = new CommandFactory(mDrivetrain, mIntake, mPivot);
 
-  private AutoCommands mAutoCommands = new AutoCommands(mDrivetrain, mIntake, mPivot);
-
+  private AutoCommands mAutoCommands = new AutoCommands(mDrivetrain, mCommandFactory);
   private CommandXboxController mDriver = new CommandXboxController(0);
   private CommandXboxController mOperator = new CommandXboxController(1);
 
@@ -36,17 +33,25 @@ public class RobotContainer {
 
   private void configureBindings() {
 
+    //# region Driver Controls
     mDrivetrain.setDefaultCommand(
       new RunCommand(()-> mDrivetrain.drive(
         Deadbander.applyLinearScaledDeadband(mDriver.getRightX(),0.1) * DriveConstants.kMaxSpeed,
-        Deadbander.applyLinearScaledDeadband(mDriver.getLeftY(), 0.1) * DriveConstants.kMaxTurnSpeed,
-        mDriver.leftTrigger().getAsBoolean(),
-        mDriver.rightTrigger().getAsBoolean()
+        Deadbander.applyLinearScaledDeadband(mDriver.getLeftY(), 0.1) * DriveConstants.kMaxTurnSpeed
       ),
       mDrivetrain
     )
     );
 
+    mDriver.a().toggleOnTrue(
+      new RunCommand(
+        () -> mDrivetrain.driveGridMode(
+          Deadbander.applyLinearScaledDeadband(mDriver.getLeftX(),0.1) * DriveConstants.kMaxSpeed,
+          Deadbander.applyLinearScaledDeadband(-mDriver.getRightY(), 0.1) * 10
+        ),
+        mDrivetrain
+      )
+    );
 
     mDriver.povLeft().onTrue(
       new InstantCommand(
@@ -61,6 +66,21 @@ public class RobotContainer {
       mDrivetrain.changeState(DriveConstants.FrontState.REVERSE)
     );
 
+    mDriver.leftTrigger().onTrue(
+      mDrivetrain.changeState(DriveConstants.ModState.TURBO)
+    ).onFalse(
+      mDrivetrain.changeState(DriveConstants.ModState.NORMAL)
+    );
+
+    mDriver.rightTrigger().onTrue(
+      mDrivetrain.changeState(DriveConstants.ModState.SLOW)
+    ).onFalse(
+      mDrivetrain.changeState(DriveConstants.ModState.NORMAL)
+    );
+
+    //#endregion
+    //#region Operator Controls
+
     mOperator.povRight().onTrue(
       new InstantCommand(
         mPivot::zeroEncoder,
@@ -68,92 +88,57 @@ public class RobotContainer {
       )
     );
     
-    mOperator.x().whileTrue(
-      new SequentialCommandGroup(
-        mPivot.changeState(PivotConstants.State.SUBSTATION),
-        new WaitUntilCommand(() -> mPivot.atTarget()),
-        mIntake.changeState(IntakeConstants.State.GRAB)
-      )
-    ).whileFalse(
-        new SequentialCommandGroup(
-          mIntake.changeState(IntakeConstants.State.STOP),
-          mPivot.changeState(PivotConstants.State.CARRY))
+    mOperator.x().onTrue(
+      mCommandFactory.getSubPickup()
+    ).onFalse(
+      mCommandFactory.getCarry()
     );
-  
 
-    mOperator.rightBumper().whileTrue(
-      new SequentialCommandGroup(
-        mPivot.changeState(PivotConstants.State.FLOOR),
-        new WaitUntilCommand(() -> mPivot.atTarget()),
-        mIntake.changeState(IntakeConstants.State.GRAB)
-      )
-    ).whileFalse(
-      new SequentialCommandGroup(
-        mIntake.changeState(IntakeConstants.State.STOP),
-        mPivot.changeState(PivotConstants.State.CARRY)
-      )
+    mOperator.rightBumper().onTrue(
+      mCommandFactory.getFloorPickup()
+    ).onFalse(
+      mCommandFactory.getCarry()
     );
     
-    mOperator.y().whileTrue(
-      new SequentialCommandGroup(
-        mPivot.changeState(PivotConstants.State.L1),
-        new WaitUntilCommand(() -> mPivot.atTarget()),
-        mIntake.changeState(IntakeConstants.State.L1RELEASE)
-      )
-    ).whileFalse(
-      new ParallelCommandGroup(
-        mIntake.changeState(IntakeConstants.State.STOP),
-        new WaitUntilCommand(() -> mPivot.atTarget()),
-        mPivot.changeState(PivotConstants.State.CARRY)
-      )
+    mOperator.y().onTrue(
+      mCommandFactory.getFireL1()
+    ).onFalse(
+      mCommandFactory.getCarry()
     );
 
-    mOperator.b().whileTrue(
-      new SequentialCommandGroup(
-        mPivot.changeState(PivotConstants.State.L2),
-        new WaitUntilCommand(() -> mPivot.atTarget()),
-        mIntake.changeState(IntakeConstants.State.L2RELEASE)
-      )
-    ).whileFalse(
-      new SequentialCommandGroup(
-        mIntake.changeState(IntakeConstants.State.IDLE),
-        mPivot.changeState(PivotConstants.State.CARRY)
-      )
+    mOperator.b().onTrue(
+      mCommandFactory.getFireL2()
+    ).onFalse(
+      mCommandFactory.getCarry()
     );
 
-    mOperator.a().whileTrue(
-      new SequentialCommandGroup(
-        mPivot.changeState(PivotConstants.State.L3),
-        new WaitUntilCommand(() -> mPivot.atTarget()),
-        mIntake.changeState(IntakeConstants.State.L3RELEASE)
-      )
-    ).whileFalse(
-      new SequentialCommandGroup(
-        mIntake.changeState(IntakeConstants.State.IDLE),
-        mPivot.changeState(PivotConstants.State.CARRY)
-      )
+    mOperator.a().onTrue(
+      mCommandFactory.getFireL3()
+    ).onFalse(
+      mCommandFactory.getCarry()
     );
 
-    mOperator.rightTrigger().whileTrue(
-      mIntake.changeState(IntakeConstants.State.GRAB)
-    ).whileFalse(
-      mIntake.changeState(IntakeConstants.State.STOP)
+    mOperator.rightTrigger().onTrue(
+      mCommandFactory.getManIntake()
+    ).onFalse(
+      mCommandFactory.stopManIntake()
     );
-
    
     mOperator.leftTrigger().onTrue(
-      mIntake.changeState(IntakeConstants.State.RELEASE)
-    ).whileFalse(
-      mIntake.changeState(IntakeConstants.State.STOP)
+      mCommandFactory.getManOuttake()
+    ).onFalse(
+      mCommandFactory.stopManIntake()
     );
 
     mOperator.povUp().onTrue(
-      mPivot.changeState(PivotConstants.State.L2)
+      mCommandFactory.getManL2()
     );
 
     mOperator.povDown().onTrue(
-      mPivot.changeState(PivotConstants.State.L1)
+      mCommandFactory.getManL1()
     );
+
+    //#endregion
 
   }
 

@@ -5,7 +5,13 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.PIDConstants;
+
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
+import frc.robot.field.AllianceTransform;
 
 public class Constants {
 
@@ -15,6 +21,16 @@ public class Constants {
     public static double kDistancePerPulse = (1.0/2048d) * (Units.inchesToMeters(6) * Math.PI) * (1/10.71);
 
     public static PIDConstants mTrajConstants = new PIDConstants(0.5, 0, 0);
+    
+    public static final PIDController kTurnPID = new PIDController(1d / 15, 0, 1d / 300);
+    public static final PIDController kAutoDrivePID = new PIDController(2, 0, 0);
+    public static final PIDController kTeleDrivePID = new PIDController(0.5, 0, 0);
+    public static final PIDController kChargePID = new PIDController(3d/11d, 0, 0);
+    public static final PIDController kSnapPID = new PIDController(1d/180, 0, 0);
+    
+    public static final double kDriveKS = 0.25;
+    public static final double kTurnKS = 0.125;
+
     public static double kTrajectoryMaxSpeed = 1;
 	  public static double kTrajectoryMaxAccel = 1;
     
@@ -45,7 +61,7 @@ public class Constants {
         this.direction = direction;
       }
     }
-   }
+   
 
    public static enum ModState {
      
@@ -63,6 +79,8 @@ public class Constants {
     ModState(double xMod, double rotMod) {
       this.xMod = xMod;
       this.rotMod = rotMod;
+      }
+      
     }
   }
 
@@ -79,6 +97,28 @@ public class Constants {
           public static int kFrontPivot = 7;
           public static int kBackPivot = 8;
 
+        }
+
+        public enum StartingPose {
+     
+          BLUE_SUB(new Pose2d(new Translation2d(2.2, 4.45), Rotation2d.fromDegrees(-90))),
+          BLUE_MID(new Pose2d(new Translation2d(2.2, 2.75), Rotation2d.fromDegrees(-90))),
+          BLUE_BUMP(new Pose2d(new Translation2d(2.2, 1), Rotation2d.fromDegrees(-90))),
+
+          RED_SUB(AllianceTransform.flipAlliance(BLUE_SUB.pose)),
+          RED_MID(AllianceTransform.flipAlliance(BLUE_MID.pose)),
+          RED_BUMP(AllianceTransform.flipAlliance(BLUE_BUMP.pose));
+
+          
+          public final Pose2d pose;
+    
+          /**
+           * @param direction Motor Percentage
+           */
+    
+          StartingPose(Pose2d pose) {
+            this.pose = pose;
+          }
         }
     }
 
