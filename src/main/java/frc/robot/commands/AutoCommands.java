@@ -30,9 +30,10 @@ public class AutoCommands {
                 commandFactory.getFireL3(),
                 commandFactory.getCarry(),
                 commandFactory.getRotateAbsolute(0),
-                commandFactory.getDriveMeters(AllianceTransform.allianceBasedDouble(3.75,-3.75)),
-                commandFactory.getRotateAbsolute(AllianceTransform.allianceBasedDouble(45,-45)),
-                commandFactory.getDriveMeters(AllianceTransform.allianceBasedDouble(0.85, -0.85))
+                commandFactory.getDriveMeters(AllianceTransform.allianceBasedDouble(3.75,-3.75))
+                //I don't think we should have this on the base taxi
+                // commandFactory.getRotateAbsolute(AllianceTransform.allianceBasedDouble(45,-45)),
+                // commandFactory.getDriveMeters(AllianceTransform.allianceBasedDouble(0.85, -0.85))
             )
         );
 
@@ -79,6 +80,56 @@ public class AutoCommands {
                 commandFactory.getCharge()
             )
         );
+
+        autoChooser.addOption("Bump-L3-Taxi",
+            new SequentialCommandGroup(
+                commandFactory.setDrivetrainStartingPose(StartingPose.BLUE_SUB, StartingPose.RED_SUB),
+                commandFactory.getFireL3(),
+                commandFactory.getCarry(),
+                commandFactory.getRotateAbsolute(0),
+                commandFactory.getDriveMeters(AllianceTransform.allianceBasedDouble(3.75,-3.75)),
+                commandFactory.getRotateAbsolute(AllianceTransform.allianceBasedDouble(-45,45)),
+                commandFactory.getDriveMeters(AllianceTransform.allianceBasedDouble(1.25, -1.25)),
+                commandFactory.getFloorPickup(),
+                commandFactory.getCarry()
+            )
+        );
+        
+        autoChooser.addOption("Bump-L3-Base",
+            new SequentialCommandGroup(
+                commandFactory.setDrivetrainStartingPose(StartingPose.BLUE_SUB, StartingPose.RED_SUB),
+                commandFactory.getFireL3(),
+                commandFactory.getCarry(),
+                commandFactory.getRotateAbsolute(0),
+                commandFactory.getDriveMeters(AllianceTransform.allianceBasedDouble(3.75,-3.75))
+            )
+        );
+
+        autoChooser.addOption("Mid-L3-Charge-1.5", 
+        new SequentialCommandGroup(
+            commandFactory.setDrivetrainStartingPose(StartingPose.BLUE_MID, StartingPose.RED_MID),
+            commandFactory.getFireL3(),
+            commandFactory.getCarry(),
+            commandFactory.getRotateAbsolute(AllianceTransform.allianceBasedDouble(-180,180)),
+            commandFactory.getDriveMeters(AllianceTransform.allianceBasedDouble(-4,4), 2),  
+            commandFactory.getFloorPickup(),
+            commandFactory.getCarry(),
+            commandFactory.getDriveMeters(AllianceTransform.allianceBasedDouble(2.5,-2.5),1),
+            commandFactory.getCharge()
+        )
+    );
+
+    autoChooser.addOption("L3-Rotate",
+        new SequentialCommandGroup(
+            commandFactory.getFireL3(),
+            commandFactory.getCarry(),
+            commandFactory.getRotateAbsolute(0)
+        )
+    );
+
+
+
+
 
         SmartDashboard.putData("Auto Chooser", autoChooser);
     }
