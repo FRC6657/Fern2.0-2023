@@ -13,10 +13,10 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.commands.AutoCommands;
 import frc.robot.commands.CommandFactory;
-import frc.robot.controls.Deadbander;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Pivot;
+import frc.robot.util.Deadbander;
 
 public class RobotContainer {
 
@@ -47,7 +47,7 @@ public class RobotContainer {
 
     mDriver.a().toggleOnTrue(
       new RunCommand(
-        () -> mDrivetrain.driveGridMode(
+        () -> mDrivetrain.driveWGridMode(
           Deadbander.applyLinearScaledDeadband(mDriver.getLeftX(),0.1) * DriveConstants.kMaxSpeed,
           Deadbander.applyLinearScaledDeadband(-mDriver.getRightY(), 0.1) * 10
         ),

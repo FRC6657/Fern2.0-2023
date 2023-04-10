@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.pathplanner.lib.auto.PIDConstants;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -11,7 +12,8 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
-import frc.robot.field.AllianceTransform;
+import frc.robot.util.SimpleCurrentLimit;
+import frc.robot.util.field.AllianceTransform;
 
 public class Constants {
 
@@ -22,6 +24,8 @@ public class Constants {
 
     public static PIDConstants mTrajConstants = new PIDConstants(0.5, 0, 0);
     
+    public static final SupplyCurrentLimitConfiguration kDriveCurrentLimit = SimpleCurrentLimit.getSimpleCurrentLimit(30);
+
     public static final PIDController kTurnPID = new PIDController(1d / 15, 0, 1d / 300);
     public static final PIDController kAutoDrivePID = new PIDController(2, 0, 0);
     public static final PIDController kTeleDrivePID = new PIDController(0.5, 0, 0);
@@ -64,10 +68,10 @@ public class Constants {
    
 
    public static enum ModState {
-     
-    TURBO(DriveConstants.kTurboForwardSpeed, DriveConstants.kTurboTurningSpeed),
-    NORMAL(DriveConstants.kNormalForwardSpeed, DriveConstants.kNormalTurningSpeed),
-    SLOW(DriveConstants.kSlowForwardSpeed, DriveConstants.kSlowTurningSpeed);
+    
+    TURBO(1, 0.8),
+    NORMAL(0.8, 0.2),
+    SLOW(0.6, 0.2);
 
     public final double xMod;
     public final double rotMod;
