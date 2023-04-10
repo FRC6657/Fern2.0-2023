@@ -5,7 +5,9 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.DriveConstants;
@@ -140,6 +142,16 @@ public class RobotContainer {
 
     //#endregion
 
+  }
+
+  public void stopAll(){
+    CommandScheduler.getInstance().schedule(
+      new ParallelCommandGroup(
+        new InstantCommand(() -> mDrivetrain.stop()),
+        new InstantCommand(() -> mIntake.changeState(Constants.IntakeConstants.State.STOP)),
+        new InstantCommand(() -> mPivot.stop())
+      ).ignoringDisable(true)
+    );
   }
 
   public Command getAutonomousCommand() {

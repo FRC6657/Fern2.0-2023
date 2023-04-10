@@ -23,6 +23,19 @@ public class AutoCommands {
         autoChooser = new SendableChooser<>();
         autoChooser.addOption("Nothing", new PrintCommand("No auto selected"));
 
+        //Base refers to no added intake
+        autoChooser.addOption("Sub-L3-Taxi-Base",
+            new SequentialCommandGroup(
+                commandFactory.setDrivetrainStartingPose(StartingPose.BLUE_SUB, StartingPose.RED_SUB),
+                commandFactory.getFireL3(),
+                commandFactory.getCarry(),
+                commandFactory.getRotateAbsolute(0),
+                commandFactory.getDriveMeters(AllianceTransform.allianceBasedDouble(3.75,-3.75)),
+                commandFactory.getRotateAbsolute(AllianceTransform.allianceBasedDouble(45,-45)),
+                commandFactory.getDriveMeters(AllianceTransform.allianceBasedDouble(0.85, -0.85))
+            )
+        );
+
         autoChooser.addOption("Sub-L3-Taxi",
             new SequentialCommandGroup(
                 commandFactory.setDrivetrainStartingPose(StartingPose.BLUE_SUB, StartingPose.RED_SUB),
@@ -34,6 +47,24 @@ public class AutoCommands {
                 commandFactory.getDriveMeters(AllianceTransform.allianceBasedDouble(0.85, -0.85)),
                 commandFactory.getFloorPickup(),
                 commandFactory.getCarry()
+            )
+        );
+
+        autoChooser.addOption("Sub-L3-Taxi-Charge",
+            new SequentialCommandGroup(
+                commandFactory.setDrivetrainStartingPose(StartingPose.BLUE_SUB, StartingPose.RED_SUB),
+                commandFactory.getFireL3(),
+                commandFactory.getCarry(),
+                commandFactory.getRotateAbsolute(0),
+                commandFactory.getDriveMeters(AllianceTransform.allianceBasedDouble(3.75,-3.75)),
+                commandFactory.getRotateAbsolute(AllianceTransform.allianceBasedDouble(45,-45)),
+                commandFactory.getDriveMeters(AllianceTransform.allianceBasedDouble(0.85, -0.85)),
+                commandFactory.getFloorPickup(),
+                commandFactory.getCarry(),
+                //CHANGE THE FOLLOWING DRIVE VALUES BASED ON SIM
+                commandFactory.getDriveMeters(AllianceTransform.allianceBasedDouble(-4,4), 2),
+                commandFactory.getDriveMeters(AllianceTransform.allianceBasedDouble(2.5,-2.5),1),
+                commandFactory.getCharge()
             )
         );
 

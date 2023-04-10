@@ -119,6 +119,11 @@ public class Pivot extends SubsystemBase {
       mMaster.set(percent);
     }
 
+    public void stop() {
+      mMaster.setNeutralMode(NeutralMode.Coast);
+      mSlave.setNeutralMode(NeutralMode.Coast);
+    }
+
     @Override
     public void periodic() {
 

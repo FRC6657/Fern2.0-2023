@@ -552,4 +552,11 @@ public DifferentialDriveKinematics getKinematics() {
 public SimpleMotorFeedforward getFeedforward(){
   return mFeedForward;
 }
+
+public void stop() {
+
+  setVoltages(0, 0);
+  
+}
+
 }
