@@ -38,6 +38,12 @@
         }
       },
       "/SmartDashboard/Field": {
+        "Intake": {
+          "arrows": false,
+          "length": 0.699999988079071,
+          "width": 0.125
+        },
+        "image": "C:\\Users\\aerea\\Downloads\\2023-field.png",
         "window": {
           "visible": true
         }

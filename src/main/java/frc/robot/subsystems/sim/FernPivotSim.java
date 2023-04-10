@@ -7,7 +7,6 @@ package frc.robot.subsystems.sim;
 import java.util.function.Supplier;
 
 import com.ctre.phoenix.motorcontrol.TalonFXSimCollection;
-
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.math.util.Units;

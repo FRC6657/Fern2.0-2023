@@ -4,7 +4,6 @@ import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
@@ -16,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.PivotConstants;
 import frc.robot.Constants.PivotConstants.State;
 import frc.robot.Constants.RobotConstants.CAN;
+import frc.robot.subsystems.sim.FernPivotSim;
 
 public class Pivot extends SubsystemBase {
     
@@ -30,6 +30,9 @@ public class Pivot extends SubsystemBase {
     public double trimVal = 0;
 
     public boolean firstRun = true; 
+
+    public FernPivotSim mPivotSim;
+
 
     public Pivot() {
 
@@ -47,6 +50,12 @@ public class Pivot extends SubsystemBase {
         falconOffset = degreeToFalcon(getThroughBoreAngle());
 
         configureMotor();
+        
+        mPivotSim = new FernPivotSim(
+            mMaster.getSimCollection(), 
+            this::getMotorSet, 
+            this::getAngle
+        );
         
     }
 
@@ -99,6 +108,10 @@ public class Pivot extends SubsystemBase {
         return falconToDegrees(mMaster.getSelectedSensorPosition() + falconOffset);
     }
 
+    public double getMotorSet(){
+        return mMaster.get();
+    }
+
     public double getThroughBoreAngle () {
         return ((mEncoder.getAbsolutePosition()) - mEncoder.getPositionOffset()) * 360;
     }
@@ -119,27 +132,33 @@ public class Pivot extends SubsystemBase {
       mMaster.set(percent);
     }
 
-    public void stop() {
-      mMaster.setNeutralMode(NeutralMode.Coast);
-      mSlave.setNeutralMode(NeutralMode.Coast);
-    }
-
     @Override
     public void periodic() {
 
         runPivot();
 
-        SmartDashboard.putNumber("TBE Raw", mEncoder.getAbsolutePosition());
-        SmartDashboard.putNumber("TBE Degrees", getThroughBoreAngle());
-        SmartDashboard.putNumber("Falcon Degrees", getAngle());
-        SmartDashboard.putNumber("Falcon Offset", falconOffset);
-        SmartDashboard.putBoolean("At Setpoint", atTarget());
-        SmartDashboard.putNumber("Motor Voltage", mMaster.get() * 12);
-        SmartDashboard.putNumber("Set Point", mCurrentState.angle);
-        SmartDashboard.putNumber("Error", mPID.getPositionError());
-        SmartDashboard.putNumber("front raw encoder", mMaster.getSelectedSensorPosition());
-        SmartDashboard.putNumber("back raw encoder", mSlave.getSelectedSensorPosition());
-
+        
+        SmartDashboard.putNumber("Pivot/TBE Raw", mEncoder.getAbsolutePosition());
+        SmartDashboard.putNumber("Pivot/TBE Degrees", getThroughBoreAngle());
+        SmartDashboard.putNumber("Pivot/Falcon Degrees", getAngle());
+        SmartDashboard.putNumber("Pivot/Falcon Offset", falconOffset);
+        SmartDashboard.putBoolean("Pivot/At Setpoint", atTarget());
+        SmartDashboard.putNumber("Pivot/Motor Voltage", mMaster.get() * 10);
+        SmartDashboard.putNumber("Pivot/Set Point", mCurrentState.angle);
+        SmartDashboard.putNumber("Pivot/Error", mPID.getPositionError());
+        SmartDashboard.putString("States/Pivot", mCurrentState.toString());
 
     }
+
+    @Override
+    public void simulationPeriodic() {
+        mPivotSim.update();
+    }
+
+    public void stop(){
+        mMaster.setNeutralMode(NeutralMode.Coast);
+        mSlave.setNeutralMode(NeutralMode.Coast);
+        mCurrentState = State.CARRY;
+    }
+
 }
