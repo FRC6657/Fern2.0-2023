@@ -35,7 +35,7 @@ public class RobotContainer {
 
   private void configureBindings() {
 
-    //# region Driver Controls
+    //#region Driver Controls
     mDrivetrain.setDefaultCommand(
       new RunCommand(()-> mDrivetrain.drive(
         Deadbander.applyLinearScaledDeadband(mDriver.getRightX(),0.1) * DriveConstants.kMaxSpeed,
@@ -48,8 +48,8 @@ public class RobotContainer {
     mDriver.a().toggleOnTrue(
       new RunCommand(
         () -> mDrivetrain.driveWGridMode(
-          Deadbander.applyLinearScaledDeadband(mDriver.getLeftX(),0.1) * DriveConstants.kMaxSpeed,
-          Deadbander.applyLinearScaledDeadband(-mDriver.getRightY(), 0.1) * 10
+          -Deadbander.applyLinearScaledDeadband(mDriver.getLeftX(),0.1) * DriveConstants.kMaxSpeed,
+          -Deadbander.applyLinearScaledDeadband(-mDriver.getRightY(), 0.1) * DriveConstants.kMaxTurnSpeed
         ),
         mDrivetrain
       )

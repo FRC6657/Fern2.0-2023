@@ -127,10 +127,6 @@ public class AutoCommands {
         )
     );
 
-
-
-
-
         SmartDashboard.putData("Auto Chooser", autoChooser);
     }
 
