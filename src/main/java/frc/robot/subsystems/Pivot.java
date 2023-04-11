@@ -48,14 +48,14 @@ public class Pivot extends SubsystemBase {
 
         mEncoder.setPositionOffset(PivotConstants.kThroughboreOffset);
         falconOffset = degreeToFalcon(getThroughBoreAngle());
-
-        configureMotor();
         
         mPivotSim = new FernPivotSim(
             mMaster.getSimCollection(), 
             this::getMotorSet, 
             this::getAngle
         );
+
+        configureMotor();
         
     }
 

@@ -89,9 +89,11 @@ public class Drivetrain extends SubsystemBase {
 
   public Drivetrain() {
 
+    configureMotors();
     mPigeon.reset();
     mOdometry = new DifferentialDriveOdometry(mPigeon.getRotation2d(), 0, 0);
     SmartDashboard.putData("Field", mField);
+
   }
 
   public void configureMotors() {
@@ -101,18 +103,22 @@ public class Drivetrain extends SubsystemBase {
     mBackLeft.configFactoryDefault();
     mBackRight.configFactoryDefault();
 
-    mFrontRight.setInverted(true);
-    mBackRight.setInverted(true);
+    if(RobotBase.isReal()) {
+      mFrontLeft.setInverted(TalonFXInvertType.CounterClockwise);
+      mBackLeft.setInverted(TalonFXInvertType.CounterClockwise);
+      mFrontRight.setInverted(TalonFXInvertType.Clockwise);
+      mBackRight.setInverted(TalonFXInvertType.Clockwise);
+    }else{
+      mFrontLeft.setInverted(TalonFXInvertType.CounterClockwise);
+      mBackLeft.setInverted(TalonFXInvertType.FollowMaster);
+      mFrontRight.setInverted(TalonFXInvertType.CounterClockwise);
+      mBackRight.setInverted(TalonFXInvertType.FollowMaster);
+    }
 
     mFrontLeft.setNeutralMode(NeutralMode.Brake);
     mFrontRight.setNeutralMode(NeutralMode.Brake);
     mBackLeft.setNeutralMode(NeutralMode.Brake);
     mBackRight.setNeutralMode(NeutralMode.Brake);
-
-    mFrontLeft.setInverted(TalonFXInvertType.CounterClockwise);
-    mBackLeft.setInverted(TalonFXInvertType.FollowMaster);
-    mFrontRight.setInverted(TalonFXInvertType.CounterClockwise);
-    mBackRight.setInverted(TalonFXInvertType.FollowMaster);
 
     mFrontLeft.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
     mFrontRight.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
@@ -202,7 +208,7 @@ public class Drivetrain extends SubsystemBase {
     var wheelSpeeds = new ChassisSpeeds(
       xSpeed * mCurrentMod.xMod * mCurrentState.direction,
       0,
-      rot * mCurrentMod.rotMod * mCurrentState.direction
+      rot * mCurrentMod.rotMod
     );
 
     setSpeeds(mKinematics.toWheelSpeeds(wheelSpeeds));
@@ -343,7 +349,7 @@ public class Drivetrain extends SubsystemBase {
       setVoltages(-output, output);
 
       SmartDashboard.putNumber("RotateAbsolute/Setpoint", mPID.getSetpoint());
-      SmartDashboard.putBoolean("RotateAbsolute/At Setpoint", mPID.atSetpoint());
+      SmartDashboard.putBoolean("RotateAbsolute/At Setpoint", Math.abs(getAngle().getDegrees() - mPID.getSetpoint()) < 0.5);
       SmartDashboard.putNumber("RotateAbsolute/Current Angle", getAngle().getDegrees());
       SmartDashboard.putNumber("RotateAbsolute/Position Error", mPID.getPositionError());
       SmartDashboard.putNumber("RotateAbsolute/Velocity Error", mPID.getVelocityError());
@@ -354,8 +360,9 @@ public class Drivetrain extends SubsystemBase {
     @Override
     public boolean isFinished() {
 
-      return mPID.atSetpoint();
+      double tolerance = 5; 
 
+      return Math.abs(getAngle().getDegrees() - mPID.getSetpoint()) < tolerance;
     }
   }
 
@@ -428,7 +435,7 @@ public class Drivetrain extends SubsystemBase {
         
       double output = mPID.calculate(getPitch(), 0);
 
-      setVoltages(output, output);
+      setVoltages(-output, -output);
 
       SmartDashboard.putNumber("Charge/Output", output);
       SmartDashboard.putNumber("Charge/Current Pitch", getPitch());
@@ -438,7 +445,7 @@ public class Drivetrain extends SubsystemBase {
 
     @Override
     public boolean isFinished() {
-      return mPID.atSetpoint();
+      return false;
     }
 
   }

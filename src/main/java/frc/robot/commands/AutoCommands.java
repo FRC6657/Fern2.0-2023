@@ -23,7 +23,21 @@ public class AutoCommands {
         autoChooser = new SendableChooser<>();
         autoChooser.addOption("Nothing", new PrintCommand("No auto selected"));
 
-        //Base refers to no added intake
+        
+        autoChooser.addOption("Turn",
+        new SequentialCommandGroup(
+            commandFactory.setDrivetrainStartingPose(StartingPose.BLUE_SUB, StartingPose.RED_SUB),
+            commandFactory.getFireL3(),
+            commandFactory.getCarry(),
+            commandFactory.getRotateAbsolute(10),
+            commandFactory.getDriveMeters(AllianceTransform.allianceBasedDouble(3.85, -3.85), 2),
+            commandFactory.getRotateAbsolute(AllianceTransform.allianceBasedDouble(35,-35)),
+            commandFactory.getDriveMeters(AllianceTransform.allianceBasedDouble(1.46, -1.46), 2),
+            commandFactory.getFloorPickup(),
+            commandFactory.getCarry()
+        )
+    );
+
         autoChooser.addOption("Sub-L3-Taxi-Base",
             new SequentialCommandGroup(
                 commandFactory.setDrivetrainStartingPose(StartingPose.BLUE_SUB, StartingPose.RED_SUB),
@@ -31,9 +45,6 @@ public class AutoCommands {
                 commandFactory.getCarry(),
                 commandFactory.getRotateAbsolute(0),
                 commandFactory.getDriveMeters(AllianceTransform.allianceBasedDouble(3.75,-3.75))
-                //I don't think we should have this on the base taxi
-                // commandFactory.getRotateAbsolute(AllianceTransform.allianceBasedDouble(45,-45)),
-                // commandFactory.getDriveMeters(AllianceTransform.allianceBasedDouble(0.85, -0.85))
             )
         );
 
@@ -42,10 +53,11 @@ public class AutoCommands {
                 commandFactory.setDrivetrainStartingPose(StartingPose.BLUE_SUB, StartingPose.RED_SUB),
                 commandFactory.getFireL3(),
                 commandFactory.getCarry(),
+                commandFactory.getDriveMeters(AllianceTransform.allianceBasedDouble(-0.3, 0.3), 2),
                 commandFactory.getRotateAbsolute(0),
-                commandFactory.getDriveMeters(AllianceTransform.allianceBasedDouble(3.75,-3.75)),
+                commandFactory.getDriveMeters(AllianceTransform.allianceBasedDouble(3.75,-3.75), 2),
                 commandFactory.getRotateAbsolute(AllianceTransform.allianceBasedDouble(45,-45)),
-                commandFactory.getDriveMeters(AllianceTransform.allianceBasedDouble(0.85, -0.85)),
+                commandFactory.getDriveMeters(AllianceTransform.allianceBasedDouble(1.46, -1.46), 2),
                 commandFactory.getFloorPickup(),
                 commandFactory.getCarry()
             )
@@ -76,7 +88,7 @@ public class AutoCommands {
                 commandFactory.getCarry(),
                 commandFactory.getRotateAbsolute(AllianceTransform.allianceBasedDouble(-180,180)),
                 commandFactory.getDriveMeters(AllianceTransform.allianceBasedDouble(-4,4), 2),
-                commandFactory.getDriveMeters(AllianceTransform.allianceBasedDouble(2.5,-2.5),1),
+                commandFactory.getDriveMeters(AllianceTransform.allianceBasedDouble(2,-2),1),
                 commandFactory.getCharge()
             )
         );
@@ -86,6 +98,7 @@ public class AutoCommands {
                 commandFactory.setDrivetrainStartingPose(StartingPose.BLUE_SUB, StartingPose.RED_SUB),
                 commandFactory.getFireL3(),
                 commandFactory.getCarry(),
+                commandFactory.getDriveMeters(AllianceTransform.allianceBasedDouble(0.3, -0.3), 2),
                 commandFactory.getRotateAbsolute(0),
                 commandFactory.getDriveMeters(AllianceTransform.allianceBasedDouble(3.75,-3.75)),
                 commandFactory.getRotateAbsolute(AllianceTransform.allianceBasedDouble(-45,45)),
@@ -100,8 +113,9 @@ public class AutoCommands {
                 commandFactory.setDrivetrainStartingPose(StartingPose.BLUE_SUB, StartingPose.RED_SUB),
                 commandFactory.getFireL3(),
                 commandFactory.getCarry(),
+                commandFactory.getDriveMeters(AllianceTransform.allianceBasedDouble(0.3, -0.3), 2),
                 commandFactory.getRotateAbsolute(0),
-                commandFactory.getDriveMeters(AllianceTransform.allianceBasedDouble(3.75,-3.75))
+                commandFactory.getDriveMeters(AllianceTransform.allianceBasedDouble(3.75,-3.75), 2)
             )
         );
 

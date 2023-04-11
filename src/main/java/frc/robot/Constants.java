@@ -26,14 +26,14 @@ public class Constants {
     
     public static final SupplyCurrentLimitConfiguration kDriveCurrentLimit = SimpleCurrentLimit.getSimpleCurrentLimit(30);
 
-    public static final PIDController kTurnPID = new PIDController(1d / 15, 0, 1d / 300);
+    public static final PIDController kTurnPID = new PIDController(1d / 5, 0, 1d / 50);
     public static final PIDController kAutoDrivePID = new PIDController(2, 0, 0);
     public static final PIDController kTeleDrivePID = new PIDController(0.5, 0, 0);
-    public static final PIDController kChargePID = new PIDController(3d/11d, 0, 0);
+    public static final PIDController kChargePID = new PIDController(1d/11d, 0, 0);
     public static final PIDController kSnapPID = new PIDController(1d/180, 0, 0);
     
     public static final double kDriveKS = 0.25;
-    public static final double kTurnKS = 0.125;
+    public static final double kTurnKS = 1.75;
 
     public static double kTrajectoryMaxSpeed = 1;
 	  public static double kTrajectoryMaxAccel = 1;
@@ -41,13 +41,13 @@ public class Constants {
     public static double kMaxSpeed = 6380.0 * (1 / 10.71) * (Units.inchesToMeters(6) * Math.PI) * (1 / 60d);
     public static double kMaxTurnSpeed = (kMaxSpeed * (1 / (kTrackwidth * Math.PI))) * (2 * Math.PI); 
     
-    public static double kTurboTurningSpeed = 0.8;
-    public static double kNormalTurningSpeed = 0.4;
+    public static double kTurboTurningSpeed = 0.6;
+    public static double kNormalTurningSpeed = 0.2;
     public static double kTurboForwardSpeed = 1;
     public static double kNormalForwardSpeed = 0.8;
 
     public static double kSlowForwardSpeed = 0.6;
-    public static double kSlowTurningSpeed = 0.2;
+    public static double kSlowTurningSpeed = 0.1;
 
 
     public static enum FrontState {
@@ -105,9 +105,9 @@ public class Constants {
 
         public enum StartingPose {
      
-          BLUE_SUB(new Pose2d(new Translation2d(2.2, 4.45), Rotation2d.fromDegrees(-90))),
-          BLUE_MID(new Pose2d(new Translation2d(2.2, 2.75), Rotation2d.fromDegrees(-90))),
-          BLUE_BUMP(new Pose2d(new Translation2d(2.2, 1), Rotation2d.fromDegrees(-90))),
+          BLUE_SUB(new Pose2d(new Translation2d(2.6, 4.45), Rotation2d.fromDegrees(-90))),
+          BLUE_MID(new Pose2d(new Translation2d(2.6, 2.75), Rotation2d.fromDegrees(-90))),
+          BLUE_BUMP(new Pose2d(new Translation2d(2.6, 1), Rotation2d.fromDegrees(-90))),
 
           RED_SUB(AllianceTransform.flipAlliance(BLUE_SUB.pose)),
           RED_MID(AllianceTransform.flipAlliance(BLUE_MID.pose)),
@@ -139,7 +139,7 @@ public class Constants {
           RELEASE(kOutSpeed),
           L1RELEASE(0.1),
           L2RELEASE(0.15),
-          L3RELEASE(0.25),
+          L3RELEASE(0.275),
           IDLE(-kS/12),
           STOP(0),
           STARTING(0);
@@ -166,7 +166,7 @@ public class Constants {
           SUBSTATION(5),
           L1(45),
           L2(-20),
-          L3(-30),
+          L3(-23),
           STOP(0),
           STARTING(-90),
           FLOOR(110),
