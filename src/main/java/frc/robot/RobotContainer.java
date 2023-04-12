@@ -156,6 +156,12 @@ public class RobotContainer {
     );
   }
 
+  public void enabledBrake(){
+    CommandScheduler.getInstance().schedule(
+        new InstantCommand(() -> mPivot.brake()).ignoringDisable(true)
+    );
+  }
+
   public Command getAutonomousCommand() {
 
     return mAutoCommands.getAuto();

@@ -23,8 +23,15 @@ public class AutoCommands {
         autoChooser = new SendableChooser<>();
         autoChooser.addOption("Nothing", new PrintCommand("No auto selected"));
 
+        autoChooser.addOption("Rotate",
+        new SequentialCommandGroup(
+            commandFactory.setDrivetrainStartingPose(StartingPose.BLUE_SUB, StartingPose.RED_SUB),
+            commandFactory.getRotateAbsolute(0),
+            commandFactory.getDriveMeters(0.1, 1)
+        )
+        );
         
-        autoChooser.addOption("Turn",
+        autoChooser.addOption("Sub-L3-Taxi-1.5",
         new SequentialCommandGroup(
             commandFactory.setDrivetrainStartingPose(StartingPose.BLUE_SUB, StartingPose.RED_SUB),
             commandFactory.getFireL3(),
@@ -55,11 +62,7 @@ public class AutoCommands {
                 commandFactory.getCarry(),
                 commandFactory.getDriveMeters(AllianceTransform.allianceBasedDouble(-0.3, 0.3), 2),
                 commandFactory.getRotateAbsolute(0),
-                commandFactory.getDriveMeters(AllianceTransform.allianceBasedDouble(3.75,-3.75), 2),
-                commandFactory.getRotateAbsolute(AllianceTransform.allianceBasedDouble(45,-45)),
-                commandFactory.getDriveMeters(AllianceTransform.allianceBasedDouble(1.46, -1.46), 2),
-                commandFactory.getFloorPickup(),
-                commandFactory.getCarry()
+                commandFactory.getDriveMeters(AllianceTransform.allianceBasedDouble(3.75,-3.75), 2)
             )
         );
 

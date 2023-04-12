@@ -26,14 +26,14 @@ public class Constants {
     
     public static final SupplyCurrentLimitConfiguration kDriveCurrentLimit = SimpleCurrentLimit.getSimpleCurrentLimit(30);
 
-    public static final PIDController kTurnPID = new PIDController(1d / 5, 0, 1d / 50);
+    public static final PIDController kTurnPID = new PIDController(1d / 10, 0, 0);
     public static final PIDController kAutoDrivePID = new PIDController(2, 0, 0);
     public static final PIDController kTeleDrivePID = new PIDController(0.5, 0, 0);
     public static final PIDController kChargePID = new PIDController(1d/11d, 0, 0);
     public static final PIDController kSnapPID = new PIDController(1d/180, 0, 0);
     
     public static final double kDriveKS = 0.25;
-    public static final double kTurnKS = 1.75;
+    public static final double kTurnKS = 0.65;
 
     public static double kTrajectoryMaxSpeed = 1;
 	  public static double kTrajectoryMaxAccel = 1;

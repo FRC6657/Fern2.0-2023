@@ -161,4 +161,9 @@ public class Pivot extends SubsystemBase {
         mCurrentState = State.CARRY;
     }
 
+    public void brake(){
+        mMaster.setNeutralMode(NeutralMode.Brake);
+        mSlave.setNeutralMode(NeutralMode.Brake);
+    }
+
 }

@@ -284,7 +284,7 @@ public class Drivetrain extends SubsystemBase {
       double output = mPID.calculate(getAngle().getDegrees(), mSetpoint);
       output += (output > 0) ? kS : -kS;
 
-      output = MathUtil.clamp(output, -3, 3); //Limit to 3v
+      output = MathUtil.clamp(output, -2, 2); //Limit to 3v
 
       setVoltages(-output, output);
 
@@ -310,7 +310,7 @@ public class Drivetrain extends SubsystemBase {
     private DoubleSupplier mInput;
     private double mSetpoint;
 
-    private double kS = (RobotBase.isReal()) ? 0.05 : 0;
+    private double kS = (RobotBase.isReal()) ? DriveConstants.kTurnKS : 0;
 
     private PIDController mPID = DriveConstants.kTurnPID;
 
@@ -344,7 +344,7 @@ public class Drivetrain extends SubsystemBase {
       double output = mPID.calculate(getAngle().getDegrees(), mSetpoint);
       output += (output > 0) ? kS : -kS;
 
-      output = MathUtil.clamp(output, -3, 3); //Limit to 3v
+      output = MathUtil.clamp(output, -2, 2); //Limit to 3v
 
       setVoltages(-output, output);
 
@@ -354,15 +354,16 @@ public class Drivetrain extends SubsystemBase {
       SmartDashboard.putNumber("RotateAbsolute/Position Error", mPID.getPositionError());
       SmartDashboard.putNumber("RotateAbsolute/Velocity Error", mPID.getVelocityError());
       SmartDashboard.putNumber("RotateAbsolute/Output", output);
+      SmartDashboard.putNumber("kS", kS);
 
     }
 
     @Override
     public boolean isFinished() {
 
-      double tolerance = 5; 
-
-      return Math.abs(getAngle().getDegrees() - mPID.getSetpoint()) < tolerance;
+      double tolerance = 1;
+      double velocityTolerance = 0.5;
+      return ((Math.abs(getAngle().getDegrees() - mPID.getSetpoint()) < tolerance) && Math.abs(mPID.getVelocityError()) < velocityTolerance);
     }
   }
 
