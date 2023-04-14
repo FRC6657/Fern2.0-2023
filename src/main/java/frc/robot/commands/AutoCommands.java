@@ -45,45 +45,6 @@ public class AutoCommands {
         )
     );
 
-        autoChooser.addOption("Sub-L3-Taxi-Base",
-            new SequentialCommandGroup(
-                commandFactory.setDrivetrainStartingPose(StartingPose.BLUE_SUB, StartingPose.RED_SUB),
-                commandFactory.getFireL3(),
-                commandFactory.getCarry(),
-                commandFactory.getRotateAbsolute(0),
-                commandFactory.getDriveMeters(AllianceTransform.allianceBasedDouble(3.75,-3.75))
-            )
-        );
-
-        autoChooser.addOption("Sub-L3-Taxi",
-            new SequentialCommandGroup(
-                commandFactory.setDrivetrainStartingPose(StartingPose.BLUE_SUB, StartingPose.RED_SUB),
-                commandFactory.getFireL3(),
-                commandFactory.getCarry(),
-                commandFactory.getDriveMeters(AllianceTransform.allianceBasedDouble(-0.3, 0.3), 2),
-                commandFactory.getRotateAbsolute(0),
-                commandFactory.getDriveMeters(AllianceTransform.allianceBasedDouble(3.75,-3.75), 2)
-            )
-        );
-
-        autoChooser.addOption("Sub-L3-Taxi-Charge",
-            new SequentialCommandGroup(
-                commandFactory.setDrivetrainStartingPose(StartingPose.BLUE_SUB, StartingPose.RED_SUB),
-                commandFactory.getFireL3(),
-                commandFactory.getCarry(),
-                commandFactory.getRotateAbsolute(0),
-                commandFactory.getDriveMeters(AllianceTransform.allianceBasedDouble(3.75,-3.75)),
-                commandFactory.getRotateAbsolute(AllianceTransform.allianceBasedDouble(45,-45)),
-                commandFactory.getDriveMeters(AllianceTransform.allianceBasedDouble(0.85, -0.85)),
-                commandFactory.getFloorPickup(),
-                commandFactory.getCarry(),
-                //CHANGE THE FOLLOWING DRIVE VALUES BASED ON SIM
-                commandFactory.getDriveMeters(AllianceTransform.allianceBasedDouble(-4,4), 2),
-                commandFactory.getDriveMeters(AllianceTransform.allianceBasedDouble(2.5,-2.5),1),
-                commandFactory.getCharge()
-            )
-        );
-
         autoChooser.addOption("Mid-L3-Charge", 
             new SequentialCommandGroup(
                 commandFactory.setDrivetrainStartingPose(StartingPose.BLUE_MID, StartingPose.RED_MID),
@@ -110,18 +71,7 @@ public class AutoCommands {
                 commandFactory.getCarry()
             )
         );
-        
-        autoChooser.addOption("Bump-L3-Base",
-            new SequentialCommandGroup(
-                commandFactory.setDrivetrainStartingPose(StartingPose.BLUE_SUB, StartingPose.RED_SUB),
-                commandFactory.getFireL3(),
-                commandFactory.getCarry(),
-                commandFactory.getDriveMeters(AllianceTransform.allianceBasedDouble(0.3, -0.3), 2),
-                commandFactory.getRotateAbsolute(0),
-                commandFactory.getDriveMeters(AllianceTransform.allianceBasedDouble(3.75,-3.75), 2)
-            )
-        );
-
+    
         autoChooser.addOption("Mid-L3-Charge-1.5", 
         new SequentialCommandGroup(
             commandFactory.setDrivetrainStartingPose(StartingPose.BLUE_MID, StartingPose.RED_MID),
