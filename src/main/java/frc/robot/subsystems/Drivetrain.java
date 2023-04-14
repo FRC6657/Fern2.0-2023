@@ -522,7 +522,6 @@ public class Drivetrain extends SubsystemBase {
     SmartDashboard.putNumber("Drivetrain/Robot Angle", getAngle().getDegrees());
     SmartDashboard.putNumber("Drivetrain/Robot Pitch", getPitch());
     SmartDashboard.putNumber("Drivetrain/NormalizedAngle", AngleUtil.normalizeAngle(getAngle().getDegrees()));
-
     SmartDashboard.putString("States/DriveDirection", mCurrentState.toString());
     SmartDashboard.putString("States/DriveSpeed", mCurrentMod.toString());
 

@@ -137,7 +137,6 @@ public class Pivot extends SubsystemBase {
 
         runPivot();
 
-        
         SmartDashboard.putNumber("Pivot/TBE Raw", mEncoder.getAbsolutePosition());
         SmartDashboard.putNumber("Pivot/TBE Degrees", getThroughBoreAngle());
         SmartDashboard.putNumber("Pivot/Falcon Degrees", getAngle());

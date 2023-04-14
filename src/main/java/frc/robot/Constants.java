@@ -6,7 +6,6 @@ package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.pathplanner.lib.auto.PIDConstants;
-
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -41,14 +40,13 @@ public class Constants {
     public static double kMaxSpeed = 6380.0 * (1 / 10.71) * (Units.inchesToMeters(6) * Math.PI) * (1 / 60d);
     public static double kMaxTurnSpeed = (kMaxSpeed * (1 / (kTrackwidth * Math.PI))) * (2 * Math.PI); 
     
-    public static double kTurboTurningSpeed = 0.6;
-    public static double kNormalTurningSpeed = 0.2;
+    public static double kTurboTurningSpeed = 0.4;
+    public static double kNormalTurningSpeed = 0.1;
     public static double kTurboForwardSpeed = 1;
     public static double kNormalForwardSpeed = 0.8;
 
     public static double kSlowForwardSpeed = 0.6;
-    public static double kSlowTurningSpeed = 0.1;
-
+    public static double kSlowTurningSpeed = 0.05;
 
     public static enum FrontState {
      
@@ -69,9 +67,9 @@ public class Constants {
 
    public static enum ModState {
     
-    TURBO(1, 0.8),
-    NORMAL(0.8, 0.2),
-    SLOW(0.6, 0.2);
+    TURBO(DriveConstants.kTurboForwardSpeed, DriveConstants.kTurboTurningSpeed),
+    NORMAL(DriveConstants.kNormalForwardSpeed, DriveConstants.kNormalTurningSpeed),
+    SLOW(DriveConstants.kSlowForwardSpeed, DriveConstants.kSlowTurningSpeed);
 
     public final double xMod;
     public final double rotMod;
