@@ -77,33 +77,24 @@ public class CommandFactory {
     }
 
     public Command getManIntake(){
-        return new SequentialCommandGroup(
-            intake.changeState(IntakeConstants.State.GRAB)
-        );
+        return intake.changeState(IntakeConstants.State.GRAB);
     }
 
     public Command getManOuttake(){
-        return new SequentialCommandGroup(
-            intake.changeState(IntakeConstants.State.RELEASE)
-        );
+        return intake.changeState(IntakeConstants.State.RELEASE);
     }
 
     public Command stopManIntake(){
-        return new SequentialCommandGroup(
-            intake.changeState(IntakeConstants.State.STOP)
-        );
+        return intake.changeState(IntakeConstants.State.GRAB);
     }
 
     public Command getManL1(){
-        return new SequentialCommandGroup(
-            pivot.changeState(PivotConstants.State.L1)
-        );
+        return pivot.changeState(PivotConstants.State.L1);
     }
 
     public Command getManL2(){
-        return new SequentialCommandGroup(
-            pivot.changeState(PivotConstants.State.L2)
-        );
+        return pivot.changeState(PivotConstants.State.L2);
+            
     }
 
     public Command getRotateRelative(DoubleSupplier angleSupplier){

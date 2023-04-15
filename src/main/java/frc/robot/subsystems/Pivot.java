@@ -62,14 +62,14 @@ public class Pivot extends SubsystemBase {
     public void configureMotor() {
 
         mMaster.configFactoryDefault();
-        mMaster.setNeutralMode(NeutralMode.Brake);
+        mMaster.setNeutralMode(NeutralMode.Coast);
 
         mMaster.configVoltageCompSaturation(10);
         mMaster.enableVoltageCompensation(true);
         mMaster.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 25, 25, 0));
     
         mSlave.configFactoryDefault();
-        mSlave.setNeutralMode(NeutralMode.Brake);
+        mSlave.setNeutralMode(NeutralMode.Coast);
 
         mSlave.configVoltageCompSaturation(10);
         mSlave.enableVoltageCompensation(true);
