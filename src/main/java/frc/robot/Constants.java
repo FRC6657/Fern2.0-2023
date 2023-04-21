@@ -28,7 +28,7 @@ public class Constants {
     public static final PIDController kTurnPID = new PIDController(1d / 10, 0, 0);
     public static final PIDController kAutoDrivePID = new PIDController(2, 0, 0);
     public static final PIDController kTeleDrivePID = new PIDController(0.5, 0, 0);
-    public static final PIDController kChargePID = new PIDController(1d/11d, 0, 0);
+    public static final PIDController kChargePID = new PIDController(2.25d/11d, 0, 0);
     public static final PIDController kSnapPID = new PIDController(1d/180, 0, 0);
     
     public static final double kDriveKS = 0.25;
@@ -41,7 +41,7 @@ public class Constants {
     public static double kMaxTurnSpeed = (kMaxSpeed * (1 / (kTrackwidth * Math.PI))) * (2 * Math.PI); 
     
     public static double kTurboTurningSpeed = 0.4;
-    public static double kNormalTurningSpeed = 0.1;
+    public static double kNormalTurningSpeed = 0.2;
     public static double kTurboForwardSpeed = 1;
     public static double kNormalForwardSpeed = 0.8;
 
@@ -138,6 +138,7 @@ public class Constants {
           L1RELEASE(0.1),
           L2RELEASE(0.15),
           L3RELEASE(0.275),
+          L3RELEASETELE(0.3),
           IDLE(-kS/12),
           STOP(0),
           STARTING(0);
@@ -158,15 +159,16 @@ public class Constants {
       public static class PivotConstants {
 
         public static double kGearing = ((1.0 / 20) * (16.0 / 60));
-        public static double kThroughboreOffset = 0.5149;
+        public static double kThroughboreOffset = 0.501;
 
         public static enum State {
           SUBSTATION(5),
           L1(45),
           L2(-20),
           L3(-23),
+          L3Tele(-27),
           STOP(0),
-          STARTING(-90),
+          STARTING(-100),
           FLOOR(110),
           CARRY(-90);
     

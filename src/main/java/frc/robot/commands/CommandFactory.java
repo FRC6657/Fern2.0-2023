@@ -27,6 +27,12 @@ public class CommandFactory {
 
     }
 
+    public Command getStartingConfig(){
+        return new SequentialCommandGroup(
+            pivot.changeState(PivotConstants.State.STARTING)
+        );
+    }
+
     public Command getCarry(){
         return new SequentialCommandGroup(
             pivot.changeState(PivotConstants.State.CARRY),
@@ -61,6 +67,15 @@ public class CommandFactory {
         );
     }
 
+    public Command getFireL3Tele(){
+        return new SequentialCommandGroup(
+            pivot.changeState(PivotConstants.State.L3Tele),
+            new WaitUntilCommand(() -> pivot.atTarget()),
+            intake.changeState(IntakeConstants.State.L3RELEASETELE),
+            new WaitCommand(0.25)
+        );
+    }
+
     public Command getFloorPickup(){
         return new SequentialCommandGroup(
             intake.changeState(IntakeConstants.State.GRAB),
@@ -85,7 +100,7 @@ public class CommandFactory {
     }
 
     public Command stopManIntake(){
-        return intake.changeState(IntakeConstants.State.GRAB);
+        return intake.changeState(IntakeConstants.State.STOP);
     }
 
     public Command getManL1(){
@@ -94,7 +109,6 @@ public class CommandFactory {
 
     public Command getManL2(){
         return pivot.changeState(PivotConstants.State.L2);
-            
     }
 
     public Command getRotateRelative(DoubleSupplier angleSupplier){

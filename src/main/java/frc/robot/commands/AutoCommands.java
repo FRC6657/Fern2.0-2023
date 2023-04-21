@@ -36,6 +36,7 @@ public class AutoCommands {
             commandFactory.setDrivetrainStartingPose(StartingPose.BLUE_SUB, StartingPose.RED_SUB),
             commandFactory.getFireL3(),
             commandFactory.getCarry(),
+            commandFactory.getDriveMeters(AllianceTransform.allianceBasedDouble(-0.352, 0.352), 2),
             commandFactory.getRotateAbsolute(10),
             commandFactory.getDriveMeters(AllianceTransform.allianceBasedDouble(3.85, -3.85), 2),
             commandFactory.getRotateAbsolute(AllianceTransform.allianceBasedDouble(35,-35)),
@@ -85,6 +86,13 @@ public class AutoCommands {
             commandFactory.getCharge()
         )
     );
+
+    autoChooser.addOption("Charge Test", 
+    new SequentialCommandGroup(
+        commandFactory.setDrivetrainStartingPose(StartingPose.BLUE_MID, StartingPose.RED_MID),
+        commandFactory.getCharge()
+    )
+);
 
     autoChooser.addOption("L3-Rotate",
         new SequentialCommandGroup(

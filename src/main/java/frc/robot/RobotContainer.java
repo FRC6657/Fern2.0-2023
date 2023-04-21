@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.commands.AutoCommands;
@@ -30,12 +31,32 @@ public class RobotContainer {
   private AutoCommands mAutoCommands = new AutoCommands(mDrivetrain, mCommandFactory);
   private CommandXboxController mDriver = new CommandXboxController(0);
   private CommandXboxController mOperator = new CommandXboxController(1);
+  private CommandGenericHID mDebug = new CommandGenericHID(2);
 
   public RobotContainer() {
     configureBindings();
   }
 
   private void configureBindings() {
+
+    //#region Debug Controls
+    mDebug.button(1).onTrue(
+      mCommandFactory.getStartingConfig()
+    );
+
+    mDebug.button(2).onTrue(
+      mCommandFactory.getManIntake()
+    ).onFalse(
+      mCommandFactory.stopManIntake()
+    );
+
+    mDebug.button(3).onTrue(
+      mCommandFactory.getManOuttake()
+    ).onFalse(
+      mCommandFactory.stopManIntake()
+    );
+
+    //#endregion
 
     //#region Driver Controls
     mDrivetrain.setDefaultCommand(
@@ -88,8 +109,11 @@ public class RobotContainer {
     mOperator.povRight().onTrue(
       new InstantCommand(
         mPivot::zeroEncoder,
-        mPivot
-      )
+        mPivot   )
+    );
+
+    mOperator.povLeft().onTrue(
+      mCommandFactory.getStartingConfig()
     );
     
     mOperator.x().onTrue(
@@ -117,7 +141,7 @@ public class RobotContainer {
     );
 
     mOperator.a().onTrue(
-      mCommandFactory.getFireL3()
+      mCommandFactory.getFireL3Tele()
     ).onFalse(
       mCommandFactory.getCarry()
     );
