@@ -246,7 +246,7 @@ public class Drivetrain extends SubsystemBase {
   }
   
   public double getPitch() {
-    return mPigeon.getRoll() + 7.998046875; // Pigeon is mounted wrong
+    return mPigeon.getRoll() + 7.998046875 - 1.7138671875; // Pigeon is mounted wrong
   }
   
   public class RotateRelative extends CommandBase {

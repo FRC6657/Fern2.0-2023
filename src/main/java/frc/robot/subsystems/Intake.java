@@ -26,7 +26,7 @@ public class Intake extends SubsystemBase {
     mMotor.enableVoltageCompensation(true);
     mMotor.setNeutralMode(NeutralMode.Coast);
     mMotor.setInverted(true);
-    mMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 40, 15, 0));
+    mMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 50, 50, 0));
 
     mCurrentState = State.STARTING;
   }

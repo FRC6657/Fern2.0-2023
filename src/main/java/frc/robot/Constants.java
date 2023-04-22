@@ -28,7 +28,7 @@ public class Constants {
     public static final PIDController kTurnPID = new PIDController(1d / 10, 0, 0);
     public static final PIDController kAutoDrivePID = new PIDController(2, 0, 0);
     public static final PIDController kTeleDrivePID = new PIDController(0.5, 0, 0);
-    public static final PIDController kChargePID = new PIDController(2.25d/11d, 0, 0);
+    public static final PIDController kChargePID = new PIDController(1.5d/11d, 0, 0);
     public static final PIDController kSnapPID = new PIDController(1d/180, 0, 0);
     
     public static final double kDriveKS = 0.25;
@@ -165,7 +165,7 @@ public class Constants {
           SUBSTATION(5),
           L1(45),
           L2(-20),
-          L3(-23),
+          L3(-25),
           L3Tele(-27),
           STOP(0),
           STARTING(-100),

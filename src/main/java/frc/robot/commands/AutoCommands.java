@@ -60,17 +60,17 @@ public class AutoCommands {
 
         autoChooser.addOption("Bump-L3-Taxi",
             new SequentialCommandGroup(
-                commandFactory.setDrivetrainStartingPose(StartingPose.BLUE_SUB, StartingPose.RED_SUB),
+                commandFactory.setDrivetrainStartingPose(StartingPose.BLUE_BUMP, StartingPose.RED_BUMP),
                 commandFactory.getFireL3(),
                 commandFactory.getCarry(),
-                commandFactory.getDriveMeters(AllianceTransform.allianceBasedDouble(0.3, -0.3), 2),
+                //commandFactory.getDriveMeters(AllianceTransform.allianceBasedDouble(-0.4, 0.4), 2),
                 commandFactory.getRotateAbsolute(0),
-                commandFactory.getDriveMeters(AllianceTransform.allianceBasedDouble(3.75,-3.75)),
-                commandFactory.getRotateAbsolute(AllianceTransform.allianceBasedDouble(-45,45)),
-                commandFactory.getDriveMeters(AllianceTransform.allianceBasedDouble(1.25, -1.25)),
-                commandFactory.getFloorPickup(),
-                commandFactory.getCarry()
-            )
+                commandFactory.getDriveMeters(AllianceTransform.allianceBasedDouble(3.5,-3.5)
+                // commandFactory.getRotateAbsolute(AllianceTransform.allianceBasedDouble(-45,45)),
+                // commandFactory.getDriveMeters(AllianceTransform.allianceBasedDouble(1.25, -1.25)),
+                // commandFactory.getFloorPickup(),
+                // commandFactory.getCarry()
+            ))
         );
     
         autoChooser.addOption("Mid-L3-Charge-1.5", 
