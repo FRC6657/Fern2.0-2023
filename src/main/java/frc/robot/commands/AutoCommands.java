@@ -63,13 +63,8 @@ public class AutoCommands {
                 commandFactory.setDrivetrainStartingPose(StartingPose.BLUE_BUMP, StartingPose.RED_BUMP),
                 commandFactory.getFireL3(),
                 commandFactory.getCarry(),
-                //commandFactory.getDriveMeters(AllianceTransform.allianceBasedDouble(-0.4, 0.4), 2),
                 commandFactory.getRotateAbsolute(0),
                 commandFactory.getDriveMeters(AllianceTransform.allianceBasedDouble(3.5,-3.5)
-                // commandFactory.getRotateAbsolute(AllianceTransform.allianceBasedDouble(-45,45)),
-                // commandFactory.getDriveMeters(AllianceTransform.allianceBasedDouble(1.25, -1.25)),
-                // commandFactory.getFloorPickup(),
-                // commandFactory.getCarry()
             ))
         );
     
