@@ -5,7 +5,7 @@
 package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
-import com.pathplanner.lib.auto.PIDConstants;
+//import com.pathplanner.lib.auto.PIDConstants;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -21,7 +21,7 @@ public class Constants {
     public static double kTrackwidth = Units.inchesToMeters(19);
     public static double kDistancePerPulse = (1.0/2048d) * (Units.inchesToMeters(6) * Math.PI) * (1/10.71);
 
-    public static PIDConstants mTrajConstants = new PIDConstants(0.5, 0, 0);
+    //public static PIDConstants mTrajConstants = new PIDConstants(0.5, 0, 0);
     
     public static final SupplyCurrentLimitConfiguration kDriveCurrentLimit = SimpleCurrentLimit.getSimpleCurrentLimit(30);
 
@@ -41,9 +41,9 @@ public class Constants {
     public static double kMaxTurnSpeed = (kMaxSpeed * (1 / (kTrackwidth * Math.PI))) * (2 * Math.PI); 
     
     public static double kTurboTurningSpeed = 0.4;
-    public static double kNormalTurningSpeed = 0.2;
+    public static double kNormalTurningSpeed = 0.15;
     public static double kTurboForwardSpeed = 1;
-    public static double kNormalForwardSpeed = 0.8;
+    public static double kNormalForwardSpeed = 0.6;
 
     public static double kSlowForwardSpeed = 0.6;
     public static double kSlowTurningSpeed = 0.05;

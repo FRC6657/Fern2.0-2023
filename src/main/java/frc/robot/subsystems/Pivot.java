@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
@@ -20,7 +19,6 @@ import frc.robot.subsystems.sim.FernPivotSim;
 public class Pivot extends SubsystemBase {
     
     private final WPI_TalonFX mMaster;
-    private final WPI_TalonFX mSlave;
 
     private final DutyCycleEncoder mEncoder;
     private final PIDController mPID;
@@ -37,7 +35,6 @@ public class Pivot extends SubsystemBase {
     public Pivot() {
 
         mMaster = new WPI_TalonFX(CAN.kFrontPivot);
-        mSlave = new WPI_TalonFX(CAN.kBackPivot);
 
         mEncoder = new DutyCycleEncoder(0);
         mPID = new PIDController(2.5 / 20d, 0, 0);
@@ -67,16 +64,6 @@ public class Pivot extends SubsystemBase {
         mMaster.configVoltageCompSaturation(10);
         mMaster.enableVoltageCompensation(true);
         mMaster.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 25, 25, 0));
-    
-        mSlave.configFactoryDefault();
-        mSlave.setNeutralMode(NeutralMode.Brake);
-
-        mSlave.configVoltageCompSaturation(10);
-        mSlave.enableVoltageCompensation(true);
-        mSlave.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 25, 25, 0));
-        
-        mSlave.follow(mMaster);
-        mSlave.setInverted(InvertType.OpposeMaster);
 
     }
 
@@ -156,13 +143,11 @@ public class Pivot extends SubsystemBase {
 
     public void stop(){
         mMaster.setNeutralMode(NeutralMode.Brake);
-        mSlave.setNeutralMode(NeutralMode.Brake);
         mCurrentState = State.CARRY;
     }
 
     public void brake(){
         mMaster.setNeutralMode(NeutralMode.Brake);
-        mSlave.setNeutralMode(NeutralMode.Brake);
     }
 
 }
