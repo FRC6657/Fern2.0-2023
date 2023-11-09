@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
@@ -36,6 +37,8 @@ public class Pivot extends SubsystemBase {
 
         mMaster = new WPI_TalonFX(CAN.kFrontPivot);
 
+        mMaster.setInverted(InvertType.InvertMotorOutput);
+
         mEncoder = new DutyCycleEncoder(0);
         mPID = new PIDController(2.5 / 20d, 0, 0);
        
@@ -69,7 +72,7 @@ public class Pivot extends SubsystemBase {
 
     public void runPivot() {
 
-        mMaster.set(MathUtil.clamp(mPID.calculate(getAngle(), mCurrentState.angle)/12, -0.8, 0.8));
+        mMaster.set(MathUtil.clamp(mPID.calculate(getAngle(), mCurrentState.angle)/12, -0.6, 0.6));
         
     }
 

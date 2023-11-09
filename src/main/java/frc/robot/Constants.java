@@ -96,8 +96,8 @@ public class Constants {
           public static int kBackRight = 4;
           public static int kPigeon = 5;
           public static int kIntake = 6;
-          public static int kFrontPivot = 7;
-          public static int kBackPivot = 8;
+          public static int kFrontPivot = 8;
+          //public static int kBackPivot = 8;
 
         }
 
